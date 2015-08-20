@@ -82,9 +82,9 @@ class ParamDecoratorTest(unittest.TestCase):
         if response.status_code != expected_status_code:
             import pprint
             pp = lambda o: pprint.PrettyPrinter(indent=2).pprint(o)
-            print "\n============================== ERROR ==============================\n"
+            print("\n============================== ERROR ==============================\n")
             pp(response.data)
-            print "\n===================================================================\n"
+            print("\n===================================================================\n")
             self.assertEqual(response.status_code, expected_status_code)
         return response.data
 
@@ -159,14 +159,6 @@ class ParamDecoratorTest(unittest.TestCase):
         self.do_fake_request(my_request, expected_status_code=400, get={'my_bool': 'ok'})
         self.do_fake_request(my_request, expected_status_code=400, get={'my_bool': 2})
         self.do_fake_request(my_request, expected_status_code=400, post={'my_bool': 'T'})
-
-    def test_unicode(self):
-        """ Test that a unicode 'str' works correctly """
-        @params(my_str=str)
-        def my_request(request, my_str):
-            return Response({'status': 'success'})
-
-        self.do_fake_request(my_request, method='POST', post={'my_str': unicode('unicode_str')})
 
     def test_tuple(self):
         """ Test that we can specify a tuple for param """
